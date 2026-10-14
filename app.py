@@ -41,11 +41,53 @@ def insert_users():
         db.session.commit()
         print("Usuario insertados Correctamente..")
         
+def query_users():
+    with app.app_context():
+        print("Listado de Usuarios")
         
+        users = User.query.all()
+        for i in users:
+            print(i)
+            
+        print("\nListado de registors filtrados")
+        filtros = User.query.filter(User.id>=2).all()
+        for j in filtros:
+            print(j)
+            
+        print("\nObterner un solo registro")
+        user = User.query.filter_by(id=1).first()
+        if user:
+            print(user)
+        else:
+            print("Usuario no encontrado")
+            
+def update_user():
+    with app.app_context():
+        print("\Actualizacion de un registro")
         
+        user = User.query.filter_by(id=1).first()
+        if user:
+            user.name = "Pepe Trueno"
+            user.email = "pepe@gmail.com"
+            db.session.commit()
+            print("Usuario actualizado")
+        else:
+            print("Usuario no encontrado")
 
+def delete_user():
+    with app.app_context():
+        print("\Eliminacion de registro")
+        user = User.query.filter_by(id=3).first()
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            print("Usuario eliminado satisfactoriamente")
+        else:
+            print("Usuario no encontrado")
 
 if __name__ == '__main__':
-    init_db()
-    insert_users()
-
+   # init_db()
+    #insert_users()
+    delete_user()
+    query_users()
+    #update_user()
