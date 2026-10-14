@@ -22,12 +22,36 @@ class User(db.Model):
     def __repr__(self):
         return f"User<Name: {self.name}, Email: {self.email}>"
 
+class Product(db.Model):
+    __tablename__ = 'product'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    stock = db.Column(db.Integer, default=0)
+    
+    def __repr__(self):
+        return f"Product<Name: {self.name}, Price: {self.price}, Stock: {self.stock}"
+
 
 def init_db():
     with app.app_context():
         db.create_all()
         print("Base de datos creada correctamente.")
         
+def insert_product():
+    with app.app_context():
+        producto1 = Product(name="Naranja", price=35.50, stock=10)
+        producto2 = Product(name="Manzana", price=23.85, stock=20)
+        producto3 = Product(name="Lima", price=33.40, stock=30)
+        
+        db.session.add(producto1)
+        db.session.add(producto2)
+        db.session.add(producto3)
+        
+        db.session.commit()
+        print("Productos creados Corectamente")
+
 def insert_users():
     with app.app_context():
         user1 = User(name="Alan Brito", email="alan@gmail.com")
@@ -86,8 +110,9 @@ def delete_user():
             print("Usuario no encontrado")
 
 if __name__ == '__main__':
-   # init_db()
+    init_db()
+    insert_product()
     #insert_users()
-    delete_user()
-    query_users()
+    #delete_user()
+    #query_users()
     #update_user()
