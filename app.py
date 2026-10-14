@@ -52,6 +52,47 @@ def insert_product():
         db.session.commit()
         print("Productos creados Corectamente")
 
+def query_product():
+    with app.app_context():
+        print("Listado de Productos")
+        product = Product.query.all()
+        for i in product:
+            print(i)
+        
+        print("\nObterner un solo registro")
+        product = Product.query.filter_by(id=3).first()
+        if product:
+            print(product)
+        else:
+            print("Producto no encontrado")
+        
+
+def update_product():
+    with app.app_context():
+        print("\Actualizar de un registro")
+        
+        product = Product.query.filter_by(id=1).first()
+        if product:
+            product.name = "Kiwi"
+            product.price = 15.20
+            product.stock = 25
+            db.session.commit()
+            print("Producto actualizado")
+        else:
+            print("producto no encontrado")
+
+def delete_product():
+    with app.app_context():
+        print("eliminar producto")
+        product = Product.query.filter_by(id=3).first()
+        if product:
+            db.session.delete(product)
+            db.session.commit()
+            print("Producto eliminado corectamente")
+        else:
+            print("Producto no encontrado")
+        
+
 def insert_users():
     with app.app_context():
         user1 = User(name="Alan Brito", email="alan@gmail.com")
@@ -110,8 +151,11 @@ def delete_user():
             print("Usuario no encontrado")
 
 if __name__ == '__main__':
-    init_db()
-    insert_product()
+    #init_db()
+    #insert_product()
+    #update_product()
+    delete_product()
+    query_product()
     #insert_users()
     #delete_user()
     #query_users()
